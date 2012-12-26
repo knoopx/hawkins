@@ -1,0 +1,38 @@
+<html ng-app="hawkins">
+<head>
+  <title>Hawkins</title>
+  <link href="//code.ionicframework.com/nightly/css/ionic.css" rel="stylesheet">
+  <script src="//code.ionicframework.com/nightly/js/ionic.bundle.js"></script>
+  <script src="//cdn.firebase.com/js/client/2.0.4/firebase.js"></script>
+  <script src="//cdn.firebase.com/libs/angularfire/0.9.0/angularfire.min.js"></script>
+
+  <link href="stylesheets/application.css" rel="stylesheet">
+  <script src="javascripts/ansi_to_html.js"></script>
+  <script src="javascripts/application.js"></script>
+</head>
+
+<body ng-controller="BuildsCtrl">
+<ion-side-menus>
+  <ion-side-menu-content>
+    <ui-view></ui-view>
+  </ion-side-menu-content>
+
+  <ion-side-menu expose-aside-when="large">
+    <ion-content>
+      <div class="list">
+        <a class="item item-icon-right" ng-repeat="build in builds | reverse track by build.$id"
+           ui-sref="show({id: build.$id})"
+           ui-sref-active="active">
+          <h3>{{build.repository.name}}/{{build.branch}}</h3>
+          <small>{{build.commit.message}} {{build.commit.author.name}}</small>
+          <i class="icon" ng-class="statusIcon(build.status)" ng-if="build.status"></i>
+        </a>
+      </div>
+    </ion-content>
+    <ion-footer-bar>
+      <h1 class="title">{{pushes.length}} pending</h1>
+    </ion-header-bar>
+  </ion-side-menu>
+</ion-side-menus>
+</body>
+</html>
