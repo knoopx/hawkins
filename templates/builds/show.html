@@ -1,0 +1,13 @@
+<ion-header-bar>
+  <button ng-click="rebuild()" class="button button-positive">Rebuild</button>
+  <h1 class="title">{{build.repository.name}}/{{build.branch}}</h1>
+  <button ng-click="remove()" class="button button-assertive">Remove</button>
+</ion-header-bar>
+
+<ion-content class="output" scroll="false" autoscroll="autoscroll">
+  <pre><code ng-bind-html="log | formatLog"></code></pre>
+</ion-content>
+
+<ion-footer-bar>
+  <h1 class="title" time="buildDuration(build)"></h1>
+</ion-footer-bar>

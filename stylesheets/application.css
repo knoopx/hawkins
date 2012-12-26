@@ -1,0 +1,13 @@
+.output {
+  padding: 20px;
+  overflow: scroll;
+  background-color: black;
+  color: white;
+}
+
+.output pre code {
+  font-size: 12px;
+  font-family: "Monaco", "Inconsolata", "Consolas", monospace;
+  -webkit-user-select: text;
+  user-select: text;
+}
