@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+
+#docker run --name camaloon/database -d postgres
+docker build --tag camaloon/app:$HAWKINS_BRANCH $HAWKINS_BUILD_PATH
+#docker run camaloon/app:$REVISION
