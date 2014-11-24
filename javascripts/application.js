@@ -36,12 +36,10 @@ angular.module("hawkins", ["ionic", "firebase"])
       }
     };
   })
-  .filter('formatLog', function($sce) {
-    return function(items) {
+  .filter('ansiHtml', function($sce) {
+    return function(item) {
       var filter = new Filter();
-      return $sce.trustAsHtml(filter.toHtml(items.map(function(item) {
-        return item.$value
-      }).join("")));
+      return $sce.trustAsHtml(filter.toHtml(item));
     };
   })
   .filter('reverse', function() {
