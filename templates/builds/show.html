@@ -5,7 +5,7 @@
 </ion-header-bar>
 
 <ion-content class="output" scroll="false" autoscroll="autoscroll">
-  <pre><code ng-bind-html="log | formatLog"></code></pre>
+  <pre><code ng-repeat="chunk in log track by chunk.$id" ng-bind-html="::chunk.$value | ansiHtml"></code></pre>
 </ion-content>
 
 <ion-footer-bar>
