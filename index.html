@@ -18,9 +18,16 @@
   </ion-side-menu-content>
 
   <ion-side-menu expose-aside-when="large">
+    <ion-header-bar class="item-input-inset">
+      <label class="item-input-wrapper">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="search" placeholder="Filter..." ng-model="filter">
+      </label>
+    </ion-header-bar>
+
     <ion-content>
       <div class="list">
-        <a class="item item-icon-right" ng-repeat="build in builds | reverse track by build.$id"
+        <a class="item item-icon-right" ng-repeat="build in builds | reverse | filter:filter track by build.$id"
            ui-sref="show({id: build.$id})"
            ui-sref-active="active">
           <h3>{{build.repository.name}}/{{build.branch}}</h3>
@@ -31,7 +38,7 @@
     </ion-content>
     <ion-footer-bar>
       <h1 class="title">{{pushes.length}} pending</h1>
-    </ion-header-bar>
+    </ion-footer-bar>
   </ion-side-menu>
 </ion-side-menus>
 </body>
