@@ -4,21 +4,22 @@ angular.module("hawkins", ["ionic", "firebase"])
     $scope.build = $firebase(root.child("builds").child($stateParams.id)).$asObject();
     $scope.log = $firebase(root.child("logs").child($stateParams.id)).$asArray();
 
-    $scope.remove = function() {
-      $scope.builds.$remove($scope.builds.$getRecord($scope.build.$id)).then(function() {
+    $scope.rebuild = function() {
+      root.child("pushes").push($scope.build.push);
+    };
+  })
+  .controller("BuildsCtrl", function($scope, $state, $firebase, root) {
+    $scope.builds = $firebase(root.child("builds").limitToLast(25)).$asArray();
+    $scope.pushes = $firebase(root.child("pushes")).$asArray();
+
+    $scope.remove = function(build) {
+      $scope.builds.$remove($scope.builds.$getRecord(build.$id)).then(function() {
         root.child("builds").limitToLast(1).once("child_added", function(snap) {
           $state.go("show", {id: snap.key()});
         });
       });
     };
 
-    $scope.rebuild = function() {
-      root.child("pushes").push($scope.build.push);
-    };
-  })
-  .controller("BuildsCtrl", function($scope, $firebase, root) {
-    $scope.builds = $firebase(root.child("builds").limitToLast(25)).$asArray();
-    $scope.pushes = $firebase(root.child("pushes")).$asArray();
     $scope.statusIcon = function(status) {
       switch (status) {
         case "running":

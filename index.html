@@ -26,10 +26,11 @@
     </ion-header-bar>
 
     <ion-content>
-      <ion-list>
+      <ion-list show-delete="isDeleting">
         <ion-item class="item-icon-right" ng-class="{assertive: build.status == 'failed'}"
                   ng-repeat="build in builds | reverse | filter:filter track by build.$id"
                   ui-sref="show({id: build.$id})" ui-sref-active="active">
+          <ion-delete-button class="ion-minus-circled" ng-click="remove(build)"></ion-delete-button>
           <h2>{{build.repository.name}}/{{build.branch}}</h2>
           {{build.commit.message}}
           <i class="icon" ng-class="statusIcon(build.status)" ng-if="build.status"></i>
@@ -38,6 +39,9 @@
     </ion-content>
     <ion-footer-bar>
       <h1 class="title">{{pushes.length}} pending</h1>
+      <button class="button button-icon icon ion-ios7-minus-outline"
+              ng-click="isDeleting = !isDeleting">
+      </button>
     </ion-footer-bar>
   </ion-side-menu>
 </ion-side-menus>
