@@ -11,3 +11,16 @@
   -webkit-user-select: text;
   user-select: text;
 }
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+  }
+}
+
+.spin {
+  -webkit-animation: spin 5s infinite linear;
+}
