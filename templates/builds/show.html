@@ -9,5 +9,6 @@
 </ion-content>
 
 <ion-footer-bar>
-  <h1 class="title" time="buildDuration(build)"></h1>
+  <h1 ng-if="build.finishedAt" class="title" ng-bind=":: build.finishedAt - build.startedAt | time"></h1>
+  <h1 ng-if="!build.finishedAt" class="title"><timer start-time="build.startedAt">{{time | time}}</timer></h1>
 </ion-footer-bar>
