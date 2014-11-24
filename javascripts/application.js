@@ -22,7 +22,7 @@ angular.module("hawkins", ["ionic", "firebase"])
     $scope.statusIcon = function(status) {
       switch (status) {
         case "running":
-          return "ion-gear-b";
+          return "ion-gear-b spin";
         case "success":
           return "ion-checkmark";
         case "failed":
