@@ -19,10 +19,6 @@ angular.module("hawkins", ["ionic", "firebase"])
   .controller("BuildsCtrl", function($scope, $firebase, root) {
     $scope.builds = $firebase(root.child("builds").limitToLast(25)).$asArray();
     $scope.pushes = $firebase(root.child("pushes")).$asArray();
-    $scope.buildDuration = function(build) {
-      var now = (new Date).getTime();
-      return ((build.finishedAt ? build.finishedAt : now) - build.startedAt);
-    };
     $scope.statusIcon = function(status) {
       switch (status) {
         case "running":
@@ -59,26 +55,24 @@ angular.module("hawkins", ["ionic", "firebase"])
       return z(minutes) + ":" + z(seconds);
     };
   })
-  .directive('time', function($interval, $filter) {
+  .directive('timer', function($compile, $interval) {
     return {
+      restrict: "E",
       scope: {
-        time: "="
+        startTime: "="
       },
-      link: function(scope, element, attrs) {
-        var filter = $filter('time');
-        var timer;
+      controller: function($scope, $element) {
+        $element.append($compile($element.contents())($scope));
+        var updateTime = function() {
+          $scope.time = (new Date).getTime() - $scope.startTime;
+        };
 
-        scope.$watch("time", function(time) {
-          if (time) {
-            element.text(filter(time));
-            if (timer) $interval.cancel(timer);
-            timer = $interval(function() {
-              element.text(filter(time));
-            }, 1000);
-            element.bind('$destroy', function() {
-              $interval.cancel(timer);
-            });
-          }
+        var timer = $interval(function() {
+          updateTime();
+        }, 1000);
+
+        $element.bind('$destroy', function() {
+          $interval.cancel(timer);
         });
       }
     }
@@ -87,7 +81,7 @@ angular.module("hawkins", ["ionic", "firebase"])
     return {
       link: function(scope, element, attrs) {
         scope.$watch(function() {
-          return element[0].scrollHeight
+          return element[0].scrollHeight;
         }, function(size) {
           element[0].scrollTop = size;
         });
