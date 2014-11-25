@@ -3,6 +3,8 @@ angular.module("hawkins", ["ionic", "firebase"])
   .controller("BuildCtrl", function($scope, $firebase, root, $state, $stateParams) {
     $scope.build = $firebase(root.child("builds").child($stateParams.id)).$asObject();
     $scope.log = $firebase(root.child("logs").child($stateParams.id)).$asArray();
+    $scope.examples = $firebase(root.child("examples").child($stateParams.id)).$asArray();
+    $scope.example_groups = $firebase(root.child("example_groups").child($stateParams.id)).$asArray();
 
     $scope.rebuild = function() {
       root.child("pushes").push($scope.build.push);

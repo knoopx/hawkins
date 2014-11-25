@@ -5,7 +5,7 @@
   color: white;
 }
 
-.output pre code {
+code {
   font-size: 12px;
   font-family: "Monaco", "Inconsolata", "Consolas", monospace;
   -webkit-user-select: text;

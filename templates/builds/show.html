@@ -1,14 +1,39 @@
 <ion-header-bar>
   <button ng-click="rebuild()" class="button button-positive">Rebuild</button>
-  <h1 class="title">{{build.repository.name}}/{{build.branch}}</h1>
+  <h1 class="title">
+    {{build.repository.name}}/{{build.branch}}
+    <span ng-if="build.finishedAt" ng-bind=":: build.finishedAt - build.startedAt | time"></span>
+    <span ng-if="!build.finishedAt">
+      <timer start-time="build.startedAt">{{time | time}}</timer>
+    </span>
+  </h1>
   <button ng-click="remove(build)" class="button button-assertive">Remove</button>
 </ion-header-bar>
 
-<ion-content class="output" scroll="false" autoscroll="autoscroll">
-  <pre><code ng-repeat="chunk in log track by chunk.$id" ng-bind-html="::chunk.$value | ansiHtml"></code></pre>
-</ion-content>
+<ion-tabs>
+  <ion-tab ng-if="examples.length" icon-on="ion-ios7-filing" icon-off="ion-ios7-filing-outline">
+    <ion-content>
+      <div class="list card" ng-repeat="example in examples | orderBy:'location' track by example.$id">
+        <div class="item item-divider">
+          <h2>{{::example.full_description}}</h2>
+        </div>
 
-<ion-footer-bar>
-  <h1 ng-if="build.finishedAt" class="title" ng-bind=":: build.finishedAt - build.startedAt | time"></h1>
-  <h1 ng-if="!build.finishedAt" class="title"><timer start-time="build.startedAt">{{time | time}}</timer></h1>
-</ion-footer-bar>
+        <div class="item">
+          <pre><code>{{::example.exception}}</code></pre>
+        </div>
+
+        <div class="item item-body" ng-click="showCapture = !showCapture">
+          <code ng-if="!showCapture">{{::example.url}}</code>
+          <img ng-if="showCapture" ng-src="{{::example.capture}}"/>
+        </div>
+
+        <div class="item item-body"><code>{{::example.location}}</code></div>
+      </div>
+    </ion-content>
+  </ion-tab>
+  <ion-tab icon-on="ion-ios7-clock" icon-off="ion-ios7-clock-outline">
+    <ion-content class="output" scroll="false" autoscroll="autoscroll">
+      <pre><code ng-repeat="chunk in log track by chunk.$id" ng-bind-html="::chunk.$value | ansiHtml"></code></pre>
+    </ion-content>
+  </ion-tab>
+</ion-tabs>
