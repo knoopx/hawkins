@@ -89,7 +89,8 @@ angular.module("hawkins", ["ionic", "firebase"])
       }
     }
   })
-  .config(function($urlRouterProvider, $stateProvider) {
+  .config(function($locationProvider, $urlRouterProvider, $stateProvider) {
+    $locationProvider.html5Mode({enabled: true, requireBase: false});
     $urlRouterProvider.otherwise("/builds");
     $stateProvider
       .state("index", {
@@ -97,7 +98,7 @@ angular.module("hawkins", ["ionic", "firebase"])
       })
       .state("show", {
         url: "/builds/:id",
-        templateUrl: "templates/builds/show.html",
+        templateUrl: "/templates/builds/show.html",
         controller: "BuildCtrl"
       })
   });
