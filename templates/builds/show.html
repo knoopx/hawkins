@@ -22,7 +22,7 @@
           <pre><code>{{::example.exception}}</code></pre>
         </div>
 
-        <div class="item item-body" ng-click="showCapture = !showCapture">
+        <div class="item item-body" ng-if="example.url && example.capture" ng-click="showCapture = !showCapture">
           <code ng-if="!showCapture">{{::example.url}}</code>
           <img ng-if="showCapture" ng-src="{{::example.capture}}"/>
         </div>
