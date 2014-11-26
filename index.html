@@ -30,19 +30,30 @@
 
     <ion-content>
       <ion-list show-delete="isDeleting">
+        <div class="item item-divider" ng-if="pushes.length">Queue</div>
+        <ion-item menu-close class="item-avatar item-icon-right" ng-repeat="push in pushes | reverse | filter:filter">
+          <img ng-src="https://avatars.githubusercontent.com/{{::push.head_commit.author.username}}"/>
+
+          <h2>{{::push.head_commit.message}}</h2>
+
+          <p>{{::push.ref | branch}}</p>
+        </ion-item>
+        <div class="item item-divider" ng-if="builds.length">Builds</div>
         <ion-item menu-close class="item-avatar item-icon-right" ng-class="{assertive: build.status == 'failed'}"
                   ng-repeat="build in builds | reverse | filter:filter track by build.$id"
                   ui-sref="show({id: build.$id})" ui-sref-active="active">
           <ion-delete-button class="ion-minus-circled" ng-click="remove(build)"></ion-delete-button>
-          <img ng-src="https://avatars.githubusercontent.com/{{build.commit.author.username}}"/>
-          <h2>{{build.commit.message}}</h2>
-          <p>{{build.branch}}</p>
+          <img ng-src="https://avatars.githubusercontent.com/{{::build.commit.author.username}}"/>
+
+          <h2>{{::build.commit.message}}</h2>
+
+          <p>{{::build.branch}}</p>
           <i class="icon" ng-class="statusIcon(build.status)" ng-if="build.status"></i>
         </ion-item>
+
       </ion-list>
     </ion-content>
     <ion-footer-bar>
-      <h1 class="title">{{pushes.length}} pending</h1>
       <button class="button button-icon icon ion-ios7-minus-outline"
               ng-click="isDeleting = !isDeleting">
       </button>

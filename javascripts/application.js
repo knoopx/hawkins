@@ -46,6 +46,11 @@ angular.module("hawkins", ["ionic", "firebase"])
       return items.slice().reverse();
     };
   })
+  .filter('branch', function() {
+    return function(item) {
+      return item.replace(/^refs\/heads\//, "")
+    };
+  })
   .filter("time", function() {
     return function(input) {
       input /= 1000
