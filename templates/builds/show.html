@@ -1,7 +1,7 @@
 <ion-header-bar>
   <button ng-click="rebuild()" class="button button-positive">Rebuild</button>
   <h1 class="title">
-    {{build.push.repository.name}}/{{build.push.ref | branch}}
+    <a target="_blank" ng-href="{{::build.push.compare}}">{{::build.push.repository.name}}/{{::build.push.ref | branch}}</a>
     <span ng-if="build.finishedAt" ng-bind=":: build.finishedAt - build.startedAt | time"></span>
     <span ng-if="!build.finishedAt">
       <timer start-time="build.startedAt">{{time | time}}</timer>
