@@ -27,7 +27,7 @@
           <img ng-if="showCapture" ng-src="{{::example.capture}}"/>
         </div>
 
-        <div class="item item-body"><code>{{::example.location}}</code></div>
+        <div class="item item-body"><a target="_blank" ng-href="{{githubFileUrl(example.location)}}"><code>{{::example.location}}</code></a></div>
       </div>
     </ion-content>
   </ion-tab>

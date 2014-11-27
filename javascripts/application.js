@@ -9,6 +9,10 @@ angular.module("hawkins", ["ionic", "firebase"])
     $scope.rebuild = function() {
       root.child("pushes").push($scope.build.push);
     };
+
+    $scope.githubFileUrl = function(location) {
+      return ["https://github.com", $scope.build.repository.full_name, "blob", $scope.build.commit.id, location.replace(/^\.\//, "").replace(/:(\d+)/, "#L$1")].join("/")
+    }
   })
   .controller("BuildsCtrl", function($scope, $state, $firebase, root) {
     $scope.builds = $firebase(root.child("builds").limitToLast(25)).$asArray();
