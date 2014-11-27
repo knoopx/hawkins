@@ -11,7 +11,7 @@ angular.module("hawkins", ["ionic", "firebase"])
     };
 
     $scope.githubFileUrl = function(location) {
-      return ["https://github.com", $scope.build.repository.full_name, "blob", $scope.build.commit.id, location.replace(/^\.\//, "").replace(/:(\d+)/, "#L$1")].join("/")
+      return ["https://github.com", $scope.build.push.repository.full_name, "blob", $scope.build.push.head_commit.id, location.replace(/^\.\//, "").replace(/:(\d+)/, "#L$1")].join("/")
     }
   })
   .controller("BuildsCtrl", function($scope, $state, $firebase, root) {
@@ -52,7 +52,7 @@ angular.module("hawkins", ["ionic", "firebase"])
   })
   .filter('branch', function() {
     return function(item) {
-      return item.replace(/^refs\/heads\//, "")
+      return item && item.replace(/^refs\/heads\//, "")
     };
   })
   .filter("time", function() {

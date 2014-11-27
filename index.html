@@ -43,11 +43,11 @@
                   ng-repeat="build in builds | reverse | filter:filter track by build.$id"
                   ui-sref="show({id: build.$id})" ui-sref-active="active">
           <ion-delete-button class="ion-minus-circled" ng-click="remove(build)"></ion-delete-button>
-          <img ng-src="https://avatars.githubusercontent.com/{{::build.commit.author.username}}"/>
+          <img ng-src="https://avatars.githubusercontent.com/{{::build.push.head_commit.author.username}}"/>
 
-          <h2>{{::build.commit.message}}</h2>
+          <h2>{{::build.push.head_commit.message}}</h2>
 
-          <p>{{::build.branch}}</p>
+          <p>{{::build.push.ref | branch}}</p>
           <i class="icon" ng-class="statusIcon(build.status)" ng-if="build.status"></i>
         </ion-item>
 
