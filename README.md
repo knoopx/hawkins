@@ -2,6 +2,8 @@
 
 A no muss, no fuss continuous integration software
 
+![Screenshot](screenshot.png)
+
 ## Features
 
 * No muss, no fuss deployment. nodejs is the only dependency.
@@ -35,7 +37,7 @@ A no muss, no fuss continuous integration software
   npm install
   ```
 
-* Edit `script/runner` to fit your needs. By default it clones, caches and runs `Hawkfile` on your repository. 
+* Edit `script/runner` to fit your needs. By default it clones, caches and runs `Hawkfile` on your repository.
 * Start the worker with:
 
   `forever start -c coffee hawkins-worker.coffee --firebase https://xxx.firebaseio.com`
