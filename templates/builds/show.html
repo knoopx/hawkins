@@ -19,7 +19,7 @@
         </div>
 
         <div class="item">
-          <pre><code>{{::example.exception}}</code></pre>
+          <pre><code ng-bind-html="::example.exception | ansiHtml"></code></pre>
         </div>
 
         <div class="item item-body" ng-if="example.url && example.capture" ng-click="showCapture = !showCapture">

@@ -15,7 +15,7 @@ angular.module("hawkins", ["ionic", "firebase"])
     }
   })
   .controller("BuildsCtrl", function($scope, $state, $firebase, root) {
-    $scope.builds = $firebase(root.child("builds").limitToLast(25)).$asArray();
+    $scope.builds = $firebase(root.child("builds").limitToLast(50)).$asArray();
     $scope.pushes = $firebase(root.child("pushes")).$asArray();
 
     $scope.remove = function(build) {
