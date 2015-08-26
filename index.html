@@ -17,7 +17,8 @@
 <body ng-controller="BuildsCtrl">
 <ion-side-menus>
   <ion-side-menu-content>
-    <ui-view></ui-view>
+    <ion-nav-bar></ion-nav-bar>
+    <ion-nav-view></ion-nav-view>
   </ion-side-menu-content>
 
   <ion-side-menu expose-aside-when="large" width="360">
@@ -33,9 +34,7 @@
         <div class="item item-divider" ng-if="pushes.length">Queue</div>
         <ion-item menu-close class="item-avatar item-icon-right" ng-repeat="push in pushes | reverse | filter:filter">
           <img ng-src="https://avatars.githubusercontent.com/{{::push.head_commit.author.username}}"/>
-
           <h2>{{::push.head_commit.message}}</h2>
-
           <p>{{::push.ref | branch}}</p>
         </ion-item>
         <div class="item item-divider" ng-if="builds.length">Builds</div>
@@ -44,19 +43,16 @@
                   ui-sref="show({id: build.$id})" ui-sref-active="active">
           <ion-delete-button class="ion-minus-circled" ng-click="remove(build)"></ion-delete-button>
           <img ng-src="https://avatars.githubusercontent.com/{{::build.push.head_commit.author.username}}"/>
-
           <h2>{{::build.push.head_commit.message}}</h2>
-
           <p>{{::build.push.ref | branch}}</p>
           <i class="icon" ng-class="statusIcon(build.status)" ng-if="build.status"></i>
         </ion-item>
 
       </ion-list>
     </ion-content>
+
     <ion-footer-bar>
-      <button class="button button-icon icon ion-ios7-minus-outline"
-              ng-click="isDeleting = !isDeleting">
-      </button>
+      <button class="button button-icon icon ion-ios7-minus-outline" ng-click="isDeleting = !isDeleting"></button>
     </ion-footer-bar>
   </ion-side-menu>
 </ion-side-menus>
