@@ -1,6 +1,7 @@
 {
   "firebase": "hawkins",
   "public": ".",
+  "rules": "rules.json",
   "rewrites": [
     {
       "source": "**",
