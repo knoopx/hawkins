@@ -26,6 +26,10 @@ angular.module("hawkins", ["ionic", "firebase"])
       });
     };
 
+    $scope.removePush = function(push) {
+      $scope.pushes.$remove($scope.pushes.$getRecord(push.$id))
+    };
+
     $scope.statusIcon = function(status) {
       switch (status) {
         case "running":
