@@ -1,10 +1,23 @@
 angular.module("hawkins", ["ionic", "firebase"])
   .constant("root", new Firebase("https://hawkins.firebaseio.com"))
-  .controller("BuildCtrl", function($scope, $firebase, root, $state, $stateParams) {
+  .controller("BuildCtrl", function($scope, $firebase, root, $state, $stateParams, $interval) {
     $scope.build = $firebase(root.child("builds").child($stateParams.id)).$asObject();
     $scope.log = $firebase(root.child("logs").child($stateParams.id)).$asArray();
     $scope.examples = $firebase(root.child("examples").child($stateParams.id)).$asArray();
     $scope.example_groups = $firebase(root.child("example_groups").child($stateParams.id)).$asArray();
+
+    var timer = $interval(function() {
+      if ($scope.build.finishedAt) {
+        $interval.cancel(timer);
+        $scope.duration = $scope.build.finishedAt - $scope.build.startedAt
+      } else {
+        $scope.duration = (new Date).getTime() - $scope.build.startedAt;
+      }
+    }, 1000);
+
+    $scope.$on('$destroy', function() {
+      $interval.cancel(timer);
+    });
 
     $scope.rebuild = function() {
       root.child("pushes").push($scope.build.push);
@@ -70,28 +83,6 @@ angular.module("hawkins", ["ionic", "firebase"])
       minutes = Math.floor(input / 60);
       return z(minutes) + ":" + z(seconds);
     };
-  })
-  .directive('timer', function($compile, $interval) {
-    return {
-      restrict: "E",
-      scope: {
-        startTime: "="
-      },
-      controller: function($scope, $element) {
-        $element.append($compile($element.contents())($scope));
-        var updateTime = function() {
-          $scope.time = (new Date).getTime() - $scope.startTime;
-        };
-
-        var timer = $interval(function() {
-          updateTime();
-        }, 1000);
-
-        $element.bind('$destroy', function() {
-          $interval.cancel(timer);
-        });
-      }
-    }
   })
   .directive('autoscroll', function() {
     return {
