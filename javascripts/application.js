@@ -87,13 +87,21 @@ angular.module("hawkins", ["ionic", "firebase"])
   .directive('autoscroll', function() {
     return {
       link: function(scope, element, attrs) {
+        var autoScroll = true;
+
+        element.on("scroll", function() {
+          autoScroll = element[0].scrollTop + element[0].clientHeight == element[0].scrollHeight;
+        });
+
         scope.$watch(function() {
           return element[0].scrollHeight;
-        }, function(size) {
-          element[0].scrollTop = size;
+        }, function(scrollHeight) {
+          if (autoScroll) {
+            element[0].scrollTop = scrollHeight;
+          }
         });
       }
-    }
+    };
   })
   .config(function($locationProvider, $urlRouterProvider, $stateProvider) {
     $locationProvider.html5Mode({enabled: true, requireBase: false});
