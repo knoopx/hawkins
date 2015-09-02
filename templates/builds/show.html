@@ -1,3 +1,14 @@
+<script id="show-capture-modal.html" type="text/ng-template">
+  <ion-modal-view style="width:90%;height:90%;top:5%;left:5%;right:5%;bottom:5%;">
+    <ion-header-bar>
+      <h1 class="title">{{::example.url}}</h1>
+    </ion-header-bar>
+    <ion-content>
+      <img style="margin:0 auto;display:block" ng-src="{{::example.capture}}"/>
+    </ion-content>
+  </ion-modal-view>
+</script>
+
 <ion-view>
   <ion-nav-buttons side="right">
     <button ng-click="rebuild()" class="button button-positive">Rebuild</button>
@@ -26,9 +37,8 @@
               <pre><code ng-bind-html="::example.exception | ansiHtml"></code></pre>
             </div>
 
-            <div class="item item-body" ng-if="example.url && example.capture" ng-click="showCapture = !showCapture">
-              <code ng-if="!showCapture">{{::example.url}}</code>
-              <img ng-if="showCapture" ng-src="{{::example.capture}}"/>
+            <div class="item item-body" ng-if="example.url" ng-click="showCapture(example)">
+              <code>{{::example.url}}</code>
             </div>
 
             <div class="item item-body"><a target="_blank" ng-href="{{githubFileUrl(example.location)}}"><code>{{::example.location}}</code></a></div>

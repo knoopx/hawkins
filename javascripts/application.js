@@ -1,6 +1,6 @@
 angular.module("hawkins", ["ionic", "firebase"])
   .constant("root", new Firebase("https://hawkins.firebaseio.com"))
-  .controller("BuildCtrl", function($scope, $firebase, root, $state, $stateParams, $interval) {
+  .controller("BuildCtrl", function($scope, $firebase, root, $state, $stateParams, $interval, $ionicModal, $document) {
     $scope.build = $firebase(root.child("builds").child($stateParams.id)).$asObject();
     $scope.log = $firebase(root.child("logs").child($stateParams.id)).$asArray();
     $scope.examples = $firebase(root.child("examples").child($stateParams.id)).$asArray();
@@ -9,7 +9,7 @@ angular.module("hawkins", ["ionic", "firebase"])
     var timer = $interval(function() {
       if ($scope.build.finishedAt) {
         $interval.cancel(timer);
-        $scope.duration = $scope.build.finishedAt - $scope.build.startedAt
+        $scope.duration = $scope.build.finishedAt - $scope.build.startedAt;
       } else {
         $scope.duration = (new Date).getTime() - $scope.build.startedAt;
       }
@@ -25,7 +25,24 @@ angular.module("hawkins", ["ionic", "firebase"])
 
     $scope.githubFileUrl = function(location) {
       return ["https://github.com", $scope.build.push.repository.full_name, "blob", $scope.build.push.head_commit.id, location.replace(/^\.\//, "").replace(/:(\d+)/, "#L$1")].join("/")
-    }
+    };
+
+    $scope.showCapture = function(example) {
+      var modalScope = $scope.$new(true);
+      $ionicModal.fromTemplateUrl("show-capture-modal.html", {
+        scope: modalScope,
+        animation: 'fade-in'
+      }).then(function(modal) {
+        modalScope.example = example;
+        removeModal = function() { modal.remove(); };
+        $scope.$on('$destroy', removeModal);
+        $document.on("keydown", function(){
+          $document.off("keydown", this);
+          removeModal();
+        });
+        modal.show();
+      });
+    };
   })
   .controller("BuildsCtrl", function($scope, $state, $firebase, root) {
     $scope.builds = $firebase(root.child("builds").limitToLast(50)).$asArray();
@@ -114,5 +131,5 @@ angular.module("hawkins", ["ionic", "firebase"])
         url: "/builds/:id",
         templateUrl: "/templates/builds/show.html",
         controller: "BuildCtrl"
-      })
+      });
   });
