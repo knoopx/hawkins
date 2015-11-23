@@ -4,17 +4,29 @@
   <meta charset="utf-8">
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
   <title>Hawkins</title>
-  <link href="//cdnjs.cloudflare.com/ajax/libs/ionic/1.0.0-beta.14/css/ionic.min.css" rel="stylesheet">
-  <script src="//cdnjs.cloudflare.com/ajax/libs/ionic/1.0.0-beta.14/js/ionic.bundle.min.js"></script>
+  <link href="//code.ionicframework.com/1.1.1/css/ionic.min.css" rel="stylesheet">
+  <script src="//code.ionicframework.com/1.1.1/js/ionic.bundle.min.js"></script>
   <script src="//cdn.firebase.com/js/client/2.0.4/firebase.js"></script>
   <script src="//cdn.firebase.com/libs/angularfire/0.9.0/angularfire.min.js"></script>
-
+  <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+  <script src="//cdn.jsdelivr.net/angular.chartjs/latest/angular-chart.min.js"></script>
   <link href="/stylesheets/application.css" rel="stylesheet">
+  <link href="//cdn.jsdelivr.net/angular.chartjs/latest/angular-chart.css" rel="stylesheet">
   <script src="/javascripts/ansi_to_html.js"></script>
   <script src="/javascripts/application.js"></script>
 </head>
 
-<body ng-controller="BuildsCtrl">
+<body>
+<script id="show-capture-modal.html" type="text/ng-template">
+  <ion-modal-view style="width:90%;height:90%;top:5%;left:5%;right:5%;bottom:5%;">
+    <ion-header-bar>
+      <h1 class="title">{{::example.url}}</h1>
+    </ion-header-bar>
+    <ion-content>
+      <img style="margin:0 auto;display:block" ng-src="{{::example.capture}}"/>
+    </ion-content>
+  </ion-modal-view>
+</script>
 <ion-side-menus>
   <ion-side-menu-content>
     <ion-nav-bar></ion-nav-bar>
@@ -36,16 +48,18 @@
           <ion-delete-button class="ion-minus-circled" ng-click="removePush(push)"></ion-delete-button>
           <img ng-src="https://avatars.githubusercontent.com/{{::push.head_commit.author.username}}"/>
           <h2>{{::push.head_commit.message}}</h2>
+
           <p>{{::push.ref | branch}}</p>
         </ion-item>
         <div class="item item-divider" ng-if="builds.length">Builds</div>
 
         <ion-item menu-close class="item-avatar item-icon-right" ng-class="{assertive: build.status == 'failed'}"
-                  ng-repeat="build in builds | reverse | filter:filter track by build.$id"
-                  ui-sref="show({id: build.$id})" ui-sref-active="active">
+          ng-repeat="build in builds | reverse | filter:filter track by build.$id"
+          ui-sref="show({id: build.$id})" ui-sref-active="active">
           <ion-delete-button class="ion-minus-circled" ng-click="remove(build)"></ion-delete-button>
           <img ng-src="https://avatars.githubusercontent.com/{{::build.push.head_commit.author.username}}"/>
           <h2>{{::build.push.head_commit.message}}</h2>
+
           <p>{{::build.push.ref | branch}}</p>
           <i class="icon" ng-class="statusIcon(build.status)" ng-if="build.status"></i>
         </ion-item>
