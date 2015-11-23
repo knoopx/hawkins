@@ -8,7 +8,7 @@ angular.module("hawkins", ["ionic", "firebase", "chart.js"])
   })
   .filter('reverse', function() {
     return function(items) {
-      return items.slice().reverse();
+      return items && items.slice().reverse();
     };
   })
   .filter('branch', function() {
